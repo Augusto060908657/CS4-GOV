@@ -1,0 +1,5 @@
+SLI,meta,medido (simulado),dentro_da_meta
+Freshness p95 (s),300.0,67.2,True
+Completude (%),98.0,98.8,True
+Precisao CRITICAL (%),90.0,95.0,True
+Disponibilidade efetiva (%),99.5,99.729,True

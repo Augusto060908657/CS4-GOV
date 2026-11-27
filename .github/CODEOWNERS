@@ -1,0 +1,15 @@
+# Responsaveis por pasta (Principio 7 do Manifesto DataOps: conhecimento nao fica em uma pessoa so).
+# Em um squad completo, cada papel teria um responsavel distinto e a revisao de PR seria feita
+# por um papel diferente do autor. Neste trabalho individual os papeis sao acumulados por
+# @OCTAVIO-GITHUB-USER (substituir pelo usuario real).
+
+/metric_contract.yaml            @OCTAVIO-GITHUB-USER   # Data Product Owner (mantem) + Eng. de Confiabilidade (aprova)
+/CHANGELOG.md                    @OCTAVIO-GITHUB-USER   # Data Product Owner
+/src/                            @OCTAVIO-GITHUB-USER   # Data Engineer
+/scripts/                        @OCTAVIO-GITHUB-USER   # Data Engineer
+/.github/workflows/              @OCTAVIO-GITHUB-USER   # Data Engineer
+/tests/                          @OCTAVIO-GITHUB-USER   # Quality Engineer
+/docs/postmortems/               @OCTAVIO-GITHUB-USER   # Quality Engineer
+/notebooks/                      @OCTAVIO-GITHUB-USER   # Data Analyst / Scientist
+/README.md                       @OCTAVIO-GITHUB-USER   # DevData Coach
+/docs/                           @OCTAVIO-GITHUB-USER   # DevData Coach

@@ -1,0 +1,135 @@
+# =====================================================================
+# Metric Contract - Plataforma Forzy
+# Versionamento semantico (MAJOR.MINOR.PATCH). Ver bloco "changelog".
+#   MAJOR: altera threshold critico, remove/renomeia sensor, muda semantica
+#          de classe ou escopo de perfil (exige Banner de Ruptura + rollback)
+#   MINOR: adiciona sensor, regra ou campo sem alterar o que ja existe
+#   PATCH: correcao de texto, comentario ou documentacao
+# =====================================================================
+contract:
+  name: forzy-metric-contract
+  version: "1.1.0"
+  status: active
+  last_updated: "2026-11-26"
+  approver_role: "Engenheiro de Confiabilidade"
+  maintainer_role: "Data Product Owner"
+  breaking_change_policy: "MAJOR exige Banner de Ruptura e plano de rollback"
+
+reference_asset:
+  description: "Motor de inducao trifasico 45 kW, acoplado rigidamente a bomba centrifuga, base rigida"
+  iso_class: "II (ISO 10816-3 / ISO 20816-1)"
+  ambient_reference_c: 25
+  tag_pattern: "^MOT-[0-9]{3}-[A-Z]{3}$"
+  example_tag: "MOT-001-SBC"
+  legacy_asset_tolerance_critical_pct: 10
+
+profiles:
+  - "Operador de Manutenção"
+  - "Engenheiro de Confiabilidade"
+  - "Auditor de Governança/TI"
+  - "Data Scientist (Admin)"
+
+sensors:
+  vibracao:
+    unit: "mm/s"
+    measure: "RMS"
+    warning: 4.5
+    critical: 7.1
+    reference: "ISO 10816-3 / ISO 20816-1, Classe II, 15-75 kW"
+    auto_action_warning: "registrar_alerta_e_aumentar_frequencia_de_amostragem"
+    auto_action_critical: "alerta_critico_e_notificacao_obrigatoria"
+    plausible_range: [0.05, 50.0]
+    max_jump: 5.0
+  temperatura:
+    unit: "degC"
+    measure: "carcaca"
+    warning: 75.0
+    critical: 95.0
+    reference: "SKF / ISO 15243; isolamento Classe F (IEC 60034-1) com margem para o mancal"
+    auto_action_warning: "registrar_alerta_e_notificar_manutencao_preditiva"
+    auto_action_critical: "alerta_critico_e_notificacao_obrigatoria"
+    plausible_range: [5.0, 150.0]
+    max_jump: 25.0
+  aceleracao:
+    unit: "g"
+    measure: "envelope_pico"
+    warning: 2.0
+    critical: 3.5
+    reference: "Baseline de fabrica do ativo + fator de seguranca"
+    auto_action_warning: "alerta_imediato"
+    auto_action_critical: "alerta_imediato_e_sinalizar_possivel_falha_estrutural"
+    plausible_range: [0.01, 20.0]
+    max_jump: 3.0
+
+anomaly:
+  method: "zscore"
+  zscore_threshold: 3.0
+  min_history: 5
+  history_window: 10
+
+circuit_breaker:
+  window: 10
+  max_missing_pct: 30
+  redundant_sensor_divergence_pct: 20
+  state_after_trigger: "HALF_OPEN"
+  valid_readings_to_close: 3
+  rules:
+    missing_data:        {since: "1.0.0"}
+    implausible_jump:    {since: "1.0.0"}
+    redundant_divergence: {since: "1.0.0"}
+    out_of_range:        {since: "1.1.0"}
+    flatline:            {since: "1.1.0", window: 10, epsilon: 0.01}
+
+handoff:
+  anomaly_review_deadline_hours: 2
+  sensor_offline_deadline_minutes: 30
+  offline_trigger_consecutive_readings: 3
+  notification:
+    warning: ["painel"]
+    critical: ["painel", "sms_push"]
+  autonomous_actions: ["monitorar", "registrar_alerta_warning", "aumentar_frequencia_amostragem"]
+  human_approval_required: ["parada_de_motor", "troca_de_componente", "ajuste_de_threshold"]
+  ai_can_shutdown_motor: false
+
+assistant:
+  citation_required: true
+  min_retrieval_score: 0.20
+  no_source_route: "revisao_humana"
+  decisions_allowed: ["aceitou", "rejeitou", "escalou"]
+  audit_fields:
+    - trace_id
+    - timestamp_utc
+    - perfil_usuario_pseudonimizado
+    - documentos_recuperados
+    - versao_modelo_linguagem
+    - versao_base_conhecimento
+    - versao_modelo_ml
+    - decisao_operador
+  log_redaction: ["token", "senha", "authorization", "api_key"]
+
+slo:
+  window_days: 30
+  freshness_p95_seconds: 300
+  freshness_critical_alert_p95_seconds: 60
+  completeness_pct: 98.0
+  precision_critical_pct: 90.0
+  precision_warning_pct: 75.0
+  availability_effective_pct: 99.5
+
+changelog:
+  - version: "1.1.0"
+    date: "2026-11-26"
+    type: "MINOR"
+    changes:
+      - "Adiciona regras de Circuit Breaker out_of_range e flatline (acao corretiva do INC-2026-001)"
+      - "Adiciona plausible_range por sensor"
+      - "Adiciona blocos handoff, assistant e slo"
+      - "Padroniza TAG de exemplo como MOT-001-SBC"
+      - "Nao altera thresholds nem classes de leitura (por isso MINOR)"
+  - version: "1.0.0"
+    date: "2026-08-31"
+    type: "MAJOR"
+    changes:
+      - "Versao inicial formalizada na Sprint 3: thresholds de vibracao, temperatura e aceleracao"
+      - "Circuit Breaker com janela, percentual de faltantes e salto implausivel"
+      - "Deteccao estatistica por z-score"

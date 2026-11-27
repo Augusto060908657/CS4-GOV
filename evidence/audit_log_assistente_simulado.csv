@@ -1,0 +1,8 @@
+trace_id,timestamp_utc,perfil_usuario,status,documentos_recuperados,versao_modelo_linguagem,versao_base_conhecimento,versao_modelo_ml,bloqueios_rbac,decisao_operador
+750cf79d-e7cc-4aa5-9a14-f8d70c96d8e1,2026-11-27T03:39:16.373023+00:00,Operador de Manutenção:8618a9b09681,COM_FONTE,['MAN-MOT-45KW v3.2 | 7.4 Alinhamento do acoplamento'],simulado-sem-LLM,kb-1.0.0,v2.4.1,3,aceitou
+4b1400c9-4714-4aee-9fce-4c6a201141f5,2026-11-27T03:39:16.373272+00:00,Operador de Manutenção:8618a9b09681,SEM_FONTE,[],simulado-sem-LLM,kb-1.0.0,v2.4.1,3,pendente
+0b01d755-8a7e-4347-83a2-2ea9df8e47da,2026-11-27T03:39:16.373349+00:00,Engenheiro de Confiabilidade:9e0c433d8b07,COM_FONTE,['ENG-RUL-MOD v2.4.1 | 3 Modelo de RUL e incerteza'],simulado-sem-LLM,kb-1.0.0,v2.4.1,1,escalou
+9ec1bbca-a0f6-4d3e-9450-bea51258c147,2026-11-27T03:39:16.373462+00:00,Operador de Manutenção:8618a9b09681,NEGADO_ESCOPO,[],simulado-sem-LLM,kb-1.0.0,v2.4.1,6,n/a
+d1700351-c499-4b83-ac4d-12bc232ce956,2026-11-27T03:39:16.373489+00:00,Operador de Manutenção:8618a9b09681,SEM_FONTE,[],simulado-sem-LLM,kb-1.0.0,v2.4.1,3,pendente
+fadaa8ad-fd4f-40d1-bc32-e35f7074544e,2026-11-27T03:39:16.373538+00:00,Auditor de Governança/TI:d9e7f7c02542,COM_FONTE,['GOV-AUD-PROC v1.0 | 4 Procedimento de auditoria'],simulado-sem-LLM,kb-1.0.0,v2.4.1,5,aceitou
+99e7576f-c540-4c7a-bd14-4c9944b24249,2026-11-27T03:39:16.373581+00:00,DESCONHECIDO,NEGADO_IDENTIDADE,[],simulado-sem-LLM,kb-1.0.0,v2.4.1,0,n/a
